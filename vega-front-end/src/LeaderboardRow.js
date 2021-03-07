@@ -14,14 +14,15 @@ const StyledTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: '1.5rem',
+    color: 'white',
+    fontWeight: 500,
   },
 }))(TableCell)
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+    backgroundColor: 'black',
+    color: 'white',
   },
 }))(TableRow)
 
@@ -31,19 +32,22 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
   const [chartData, setChartData] = useState([])
 
   const handleExpand = () => {
-    setLoading(true)
-    setExpanded(true)
-    fetch(`https://vega-leaderboard.herokuapp.com/api/address/${party_id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedData = data.data
-          .sort((a, b) => a.timestamp - b.timestamp)
-          .map((item) => {
-            return [item.timestamp * 1000, item.account_balance]
-          })
-        console.log(sortedData)
-        setChartData(sortedData)
-      })
+    if (!expanded) {
+      setLoading(true)
+      fetch(`https://vega-leaderboard.herokuapp.com/api/address/${party_id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const sortedData = data.data
+            .sort((a, b) => a.timestamp - b.timestamp)
+            .map((item) => {
+              return [item.timestamp * 1000, item.account_balance]
+            })
+          console.log(sortedData)
+          setChartData(sortedData)
+        })
+      setLoading(false)
+    }
+    setExpanded(!expanded)
   }
 
   const dummyData = [
@@ -52,31 +56,46 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
   ]
   const options = {
     chart: {
-      type: 'spline',
+      type: 'line',
       scrollablePlotArea: {
         minWidth: 1000,
         scrollPositionX: 1,
       },
+      backgroundColor: '#000',
+      style: {
+        fontSize: '1.2rem',
+      },
+    },
+    legend: {
+      enabled: false,
     },
     title: {
       text: `Address ${party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}`,
+      style: { color: 'white', fontSize: '1.5rem', fontWeight: 600 },
     },
     xAxis: {
       type: 'datetime',
       labels: {
         overflow: 'justify',
+        style: { color: '#aaa', fontSize: '1rem' },
       },
     },
     yAxis: {
       title: {
         text: 'Balance',
+        style: { color: 'white', fontSize: '1.3rem', fontWeight: 500 },
       },
+      labels: {
+        style: { color: '#aaa', fontSize: '1rem', fontWeight: 600 },
+      },
+      gridLineColor: '#555',
     },
 
     series: [
       {
         name: 'Balance',
         data: chartData,
+        color: 'white',
       },
     ],
   }

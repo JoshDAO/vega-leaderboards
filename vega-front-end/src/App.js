@@ -6,8 +6,7 @@ function App() {
       <div
         className='App'
         style={{
-          width: '50%',
-          maxwidth: 1000,
+          width: '90%',
           margin: 'auto',
           marginTop: '5rem',
           fontFamily: "Helvetica Neue',Helvetica,Arial,sans-serif",

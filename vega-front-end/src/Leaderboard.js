@@ -8,15 +8,14 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
+import LeaderboardRow from './LeaderboardRow'
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 })
 
-function createData(address, balance) {
-  return { address, balance }
-}
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -36,46 +35,48 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow)
 
-const rows = [
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-  createData('0x3209b0e85b131f56e1b3a1631bbe', 352224.652155),
-]
-
 const Leaderboard = () => {
   const classes = useStyles()
+  const [leaderboardData, setLeaderboardData] = useState([])
+  useEffect(() => {
+    fetch('https://vega-leaderboard.herokuapp.com/api/leaderboards')
+      .then((response) => response.json())
+      .then((data) => {
+        const sortedData = data.data.filter((item) => item.party_id !== 'network').reverse()
+        console.log(sortedData)
+        setLeaderboardData(sortedData)
+      })
+  }, [])
 
-  return (
+  return leaderboardData.length ? (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label='simple table'>
         <TableHead>
           <TableRow>
+            <StyledTableCell></StyledTableCell>
             <StyledTableCell align='center'>ADDRESS</StyledTableCell>
             <StyledTableCell align='center'>BALANCE</StyledTableCell>
+            <StyledTableCell align='center'>PROFIT</StyledTableCell>
+            <StyledTableCell align='center'>REALISED_PNL</StyledTableCell>
+            <StyledTableCell align='center'>ROI_%</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.address}>
-              <StyledTableCell component='th' scope='row' align='center'>
-                {row.address}
-              </StyledTableCell>
-              <StyledTableCell align='center'>{row.balance}</StyledTableCell>
-            </StyledTableRow>
+          {leaderboardData.map((row, index) => (
+            <LeaderboardRow
+              key={row.id}
+              index={index}
+              account_balance={row.account_balance}
+              party_id={row.party_id}
+              profit={row.profit}
+              pnl={row.realised_pnl}
+              roi={row['roi(%)']}
+            />
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  ) : null
 }
 
 export default Leaderboard

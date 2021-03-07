@@ -28,4 +28,4 @@ app.use('/api', router)
 
 const apiPort = 8000
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
+app.listen(process.env.PORT || apiPort, () => console.log(`Server running on port ${apiPort}`))

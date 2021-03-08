@@ -5,6 +5,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Collapse from '@material-ui/core/Collapse'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import { IoMdArrowDropdown } from 'react-icons/io'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -30,6 +31,8 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
   const [expanded, setExpanded] = useState(false)
   const [loading, setLoading] = useState(false)
   const [chartData, setChartData] = useState([])
+  const [readOnlyChartData, setReadOnlyChartData] = useState([])
+  const [period, setPeriod] = useState(86400000 * 365)
 
   const handleExpand = () => {
     if (!expanded) {
@@ -40,10 +43,11 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
           const sortedData = data.data
             .sort((a, b) => a.timestamp - b.timestamp)
             .map((item) => {
-              return [item.timestamp * 1000, item.account_balance]
+              return [item.timestamp * 1000, item.account_balance / 1000000]
             })
           console.log(sortedData)
           setChartData(sortedData)
+          setReadOnlyChartData(sortedData)
         })
       setLoading(false)
     }
@@ -82,7 +86,7 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
     },
     yAxis: {
       title: {
-        text: 'Balance',
+        text: 'Balance (millions)',
         style: { color: 'white', fontSize: '1.3rem', fontWeight: 500 },
       },
       labels: {
@@ -94,10 +98,16 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
     series: [
       {
         name: 'Balance',
-        data: chartData,
+        data: chartData.filter((dataPoint) => dataPoint[0] > Date.now() - period),
         color: 'white',
       },
     ],
+  }
+
+  const filterTime = (period) => {
+    const tempData = readOnlyChartData.map((object) => [...object])
+    console.log('tempData: ', tempData)
+    setChartData(tempData.filter((dataPoint) => dataPoint[0] > Date.now() - period))
   }
 
   return (
@@ -113,9 +123,12 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
         <StyledTableCell align='center'>{profit}</StyledTableCell>
         <StyledTableCell align='center'>{pnl}</StyledTableCell>
         <StyledTableCell align='center'>{roi}</StyledTableCell>
+        <StyledTableCell align='center'>
+          <IoMdArrowDropdown size={'2rem'} />
+        </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='center' colSpan={6}>
+        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='center' colSpan={7}>
           <Collapse
             in={expanded}
             timeout='auto'
@@ -123,6 +136,67 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
             style={{ margin: 'auto', padding: '2rem' }}
           >
             <HighchartsReact highcharts={Highcharts} options={options} />
+            <div
+              style={{
+                border: '3px solid white',
+                width: '20%',
+                height: '2.5rem',
+                margin: 'auto',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{
+                  cursor: 'pointer',
+                  border: period === 86400000 ? '3px solid white' : 'none',
+                  boxSizing: 'border-box',
+                  padding: '0 0.5rem',
+                  width: '25%',
+                }}
+                onClick={() => setPeriod(86400000)}
+              >
+                24h
+              </div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  border: period === 86400000 * 7 ? '3px solid white' : 'none',
+                  boxSizing: 'border-box',
+                  padding: '0 0.5rem',
+                  width: '25%',
+                }}
+                onClick={() => setPeriod(86400000 * 7)}
+              >
+                7d
+              </div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  border: period === 86400000 * 30 ? '3px solid white' : 'none',
+                  boxSizing: 'border-box',
+                  padding: '0 0.5rem',
+                  width: '25%',
+                }}
+                onClick={() => setPeriod(86400000 * 30)}
+              >
+                30d
+              </div>
+              <div
+                style={{
+                  cursor: 'pointer',
+                  border: period === 86400000 * 365 ? '3px solid white' : 'none',
+                  boxSizing: 'border-box',
+                  padding: '0 0.5rem',
+                  width: '25%',
+                }}
+                onClick={() => setPeriod(86400000 * 365)}
+              >
+                1y
+              </div>
+            </div>
           </Collapse>
         </StyledTableCell>
       </StyledTableRow>
@@ -131,3 +205,7 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
 }
 
 export default LeaderboardRow
+
+// 1615237976905.4324
+// 1615238724248
+// 86400000

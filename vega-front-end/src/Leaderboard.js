@@ -60,6 +60,7 @@ const Leaderboard = () => {
             <StyledTableCell align='center'>PROFIT</StyledTableCell>
             <StyledTableCell align='center'>REALISED_PNL</StyledTableCell>
             <StyledTableCell align='center'>ROI_%</StyledTableCell>
+            <StyledTableCell align='center'></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

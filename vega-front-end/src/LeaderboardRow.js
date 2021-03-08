@@ -70,6 +70,13 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
         fontSize: '1.2rem',
       },
     },
+    plotOptions: {
+      line: {
+        marker: {
+          enabled: false,
+        },
+      },
+    },
     legend: {
       enabled: false,
     },
@@ -144,7 +151,8 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
                 margin: 'auto',
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-evenly',
+                justifyContent:
+                  'space-evenghlighting of a single point. Can be used to remove, edit or display information about a point.ly',
                 alignItems: 'center',
               }}
             >

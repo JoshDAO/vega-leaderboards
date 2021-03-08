@@ -32,6 +32,7 @@ const StyledTableRow = withStyles((theme) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
+    borderRight: 'none',
   },
 }))(TableRow)
 
@@ -49,7 +50,7 @@ const Leaderboard = () => {
   }, [])
 
   return leaderboardData.length ? (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} style={{ backgroundColor: 'black' }}>
       <Table className={classes.table} aria-label='simple table'>
         <TableHead>
           <TableRow>

@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Collapse from '@material-ui/core/Collapse'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import { IoMdArrowDropdown } from 'react-icons/io'
+import { IoMdExpand} from 'react-icons/io'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -14,17 +14,20 @@ const StyledTableCell = withStyles((theme) => ({
     fontSize: '2rem',
   },
   body: {
-    fontSize: '1.5rem',
+    fontSize: '1rem',
     color: 'white',
-    fontWeight: 500,
+    fontWeight: 250,
   },
+  root: {
+    padding: "8px 32px"
+  }
 }))(TableCell)
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
     backgroundColor: 'black',
     color: 'white',
-  },
+  }
 }))(TableRow)
 
 const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) => {
@@ -62,7 +65,6 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
     chart: {
       type: 'line',
       scrollablePlotArea: {
-        minWidth: 1000,
         scrollPositionX: 1,
       },
       backgroundColor: '#000',
@@ -131,7 +133,7 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
         <StyledTableCell align='center'>{pnl}</StyledTableCell>
         <StyledTableCell align='center'>{roi}</StyledTableCell>
         <StyledTableCell align='center'>
-          <IoMdArrowDropdown size={'2rem'} />
+          <IoMdExpand size={'1.5rem'} />
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>

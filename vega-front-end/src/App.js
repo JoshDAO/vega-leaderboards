@@ -8,11 +8,12 @@ function App() {
         style={{
           width: '90%',
           margin: 'auto',
-          marginTop: '5rem',
+          marginTop: '2rem',
           fontFamily: "Helvetica Neue',Helvetica,Arial,sans-serif",
           backgroundColor: 'black',
         }}
       >
+
         <Leaderboard />
       </div>
     </div>

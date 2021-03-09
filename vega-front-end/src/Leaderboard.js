@@ -16,14 +16,24 @@ const useStyles = makeStyles({
   },
 })
 
+// Create our number formatter.
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+  //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: '2rem',
+    fontSize: '1.2rem',
   },
   body: {
-    fontSize: '1.5rem',
+    fontSize: '1rem',
   },
 }))(TableCell)
 
@@ -55,11 +65,11 @@ const Leaderboard = () => {
         <TableHead>
           <TableRow>
             <StyledTableCell></StyledTableCell>
-            <StyledTableCell align='center'>ADDRESS</StyledTableCell>
-            <StyledTableCell align='center'>BALANCE</StyledTableCell>
-            <StyledTableCell align='center'>PROFIT</StyledTableCell>
-            <StyledTableCell align='center'>REALISED_PNL</StyledTableCell>
-            <StyledTableCell align='center'>ROI_%</StyledTableCell>
+            <StyledTableCell align='center'>Party ID</StyledTableCell>
+            <StyledTableCell align='center'>Balance ($)</StyledTableCell>
+            <StyledTableCell align='center'>Profit ($)</StyledTableCell>
+            <StyledTableCell align='center'>Realised PNL ($)</StyledTableCell>
+            <StyledTableCell align='center'>ROI (%)</StyledTableCell>
             <StyledTableCell align='center'></StyledTableCell>
           </TableRow>
         </TableHead>
@@ -68,11 +78,11 @@ const Leaderboard = () => {
             <LeaderboardRow
               key={row.id}
               index={index}
-              account_balance={row.account_balance}
+              account_balance={formatter.format(row.account_balance)}
               party_id={row.party_id}
-              profit={row.profit}
-              pnl={row.realised_pnl}
-              roi={row['roi(%)']}
+              profit={formatter.format(row.profit)}
+              pnl={formatter.format(row.realised_pnl)}
+              roi={row['roi(%)'].toFixed(2)}
             />
           ))}
         </TableBody>

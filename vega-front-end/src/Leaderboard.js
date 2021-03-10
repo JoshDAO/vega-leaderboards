@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper'
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 import LeaderboardRow from './LeaderboardRow'
+import { colors } from './styles'
 
 const useStyles = makeStyles({
   table: {
@@ -29,8 +30,8 @@ var formatter = new Intl.NumberFormat('en-US', {
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: colors.black,
+    color: colors.white,
     fontSize: '1.2rem',
   },
   body: {
@@ -38,14 +39,18 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell)
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    borderRight: 'none',
+// const StyledTableRow = withStyles((theme) => ({
+//   root: {
+//     borderRight: 'none',
+//   },
+// }))(TableRow)
+
+const styles = {
+  sortIcon: {
+    position: 'relative',
+    top: 5,
   },
-}))(TableRow)
+}
 
 const Leaderboard = () => {
   const classes = useStyles()
@@ -84,7 +89,7 @@ const Leaderboard = () => {
               align='right'
             >
               Party ID &nbsp;
-              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -92,7 +97,7 @@ const Leaderboard = () => {
               align='right'
             >
               Balance ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -100,7 +105,7 @@ const Leaderboard = () => {
               align='right'
             >
               Profit ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -108,7 +113,7 @@ const Leaderboard = () => {
               align='right'
             >
               Realised PNL ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -116,7 +121,7 @@ const Leaderboard = () => {
               align='right'
             >
               Unrealised PNL ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -124,7 +129,7 @@ const Leaderboard = () => {
               align='right'
             >
               ROI (%)&nbsp;
-              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell align='right'></StyledTableCell>
           </TableRow>

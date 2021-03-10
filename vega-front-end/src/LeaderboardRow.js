@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Collapse from '@material-ui/core/Collapse'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import { IoMdExpand, IoMdArrowDropdown } from 'react-icons/io'
+import { IoMdExpand } from 'react-icons/io'
+import { colors } from './styles'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -15,7 +16,7 @@ const StyledTableCell = withStyles((theme) => ({
   },
   body: {
     fontSize: '1rem',
-    color: 'white',
+    color: colors.white,
     fontWeight: 300,
   },
   root: {
@@ -25,8 +26,8 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    backgroundColor: 'black',
-    color: 'white',
+    backgroundColor: colors.black,
+    color: colors.white,
   },
 }))(TableRow)
 
@@ -40,14 +41,11 @@ const LeaderboardRow = ({
   roi,
 }) => {
   const [expanded, setExpanded] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [chartData, setChartData] = useState([])
-  const [readOnlyChartData, setReadOnlyChartData] = useState([])
   const [period, setPeriod] = useState(86400000 * 365)
 
   const handleExpand = () => {
     if (!expanded) {
-      setLoading(true)
       fetch(`https://vega-leaderboard.herokuapp.com/api/address/${party_id}`)
         .then((response) => response.json())
         .then((data) => {
@@ -56,19 +54,12 @@ const LeaderboardRow = ({
             .map((item) => {
               return [item.timestamp * 1000, item.account_balance / 1000000]
             })
-          console.log(sortedData)
           setChartData(sortedData)
-          setReadOnlyChartData(sortedData)
         })
-      setLoading(false)
     }
     setExpanded(!expanded)
   }
 
-  const dummyData = [
-    [3, 34],
-    [4, 36],
-  ]
   const options = {
     chart: {
       type: 'line',
@@ -92,22 +83,22 @@ const LeaderboardRow = ({
     },
     title: {
       text: `Address ${party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}`,
-      style: { color: 'white', fontSize: '1.5rem', fontWeight: 600 },
+      style: { color: colors.white, fontSize: '1.5rem', fontWeight: 600 },
     },
     xAxis: {
       type: 'datetime',
       labels: {
         overflow: 'justify',
-        style: { color: '#aaa', fontSize: '1rem' },
+        style: { color: colors.lightGrey, fontSize: '1rem' },
       },
     },
     yAxis: {
       title: {
         text: 'Balance (millions)',
-        style: { color: 'white', fontSize: '1.3rem', fontWeight: 500 },
+        style: { color: colors.white, fontSize: '1.3rem', fontWeight: 500 },
       },
       labels: {
-        style: { color: '#aaa', fontSize: '1rem', fontWeight: 600 },
+        style: { color: colors.lightGrey, fontSize: '1rem', fontWeight: 600 },
       },
       gridLineColor: '#555',
     },
@@ -115,16 +106,10 @@ const LeaderboardRow = ({
     series: [
       {
         name: 'Balance',
-        data: chartData.filter((dataPoint) => dataPoint[0] > Date.now() - period),
+        data: chartData.filter((dataPoint) => dataPoint[0] > Date.now() - period), //  filters data according to time set on graph
         color: 'white',
       },
     ],
-  }
-
-  const filterTime = (period) => {
-    const tempData = readOnlyChartData.map((object) => [...object])
-    console.log('tempData: ', tempData)
-    setChartData(tempData.filter((dataPoint) => dataPoint[0] > Date.now() - period))
   }
 
   return (

@@ -56,6 +56,7 @@ const LeaderboardRow = ({
             .map((item) => {
               return [item.timestamp * 1000, item.account_balance / 1000000]
             })
+          console.log(sortedData)
           setChartData(sortedData)
         })
     }
@@ -123,16 +124,25 @@ const LeaderboardRow = ({
         <StyledTableCell component='th' scope='row' align='right'>
           {party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}
         </StyledTableCell>
-        <StyledTableCell style={{ color: account_balance < 0 ? 'red' : '#33ff33' }} align='right'>
+        <StyledTableCell style={{ color: colors.white }} align='right'>
           {account_balance}
         </StyledTableCell>
-        <StyledTableCell style={{ color: profit < 0 ? 'red' : '#33ff33' }} align='right'>
+        <StyledTableCell
+          style={{ color: parseInt(profit.replace(/\$|\,/, '')) < 0 ? 'red' : '#33ff33' }}
+          align='right'
+        >
           {profit}
         </StyledTableCell>
-        <StyledTableCell style={{ color: realisedpnl < 0 ? 'red' : '#33ff33' }} align='right'>
+        <StyledTableCell
+          style={{ color: parseInt(realisedpnl.replace(/\$|\,/, '')) < 0 ? 'red' : '#33ff33' }}
+          align='right'
+        >
           {realisedpnl}
         </StyledTableCell>
-        <StyledTableCell style={{ color: unrealisedpnl < 0 ? 'red' : '#33ff33' }} align='right'>
+        <StyledTableCell
+          style={{ color: parseInt(unrealisedpnl.replace(/\$|\,/, '')) < 0 ? 'red' : '#33ff33' }}
+          align='right'
+        >
           {unrealisedpnl}
         </StyledTableCell>
         <StyledTableCell style={{ color: roi < 0 ? 'red' : '#33ff33' }} align='right'>

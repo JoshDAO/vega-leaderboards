@@ -13,11 +13,13 @@ const StyledTableCell = withStyles((theme) => ({
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
     fontSize: '2rem',
+    fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
   },
   body: {
     fontSize: '1rem',
     color: colors.white,
     fontWeight: 300,
+    fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
   },
   root: {
     padding: '8px 16px',

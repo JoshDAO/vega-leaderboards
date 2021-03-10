@@ -88,7 +88,7 @@ const Leaderboard = () => {
               onClick={() => sortLeaderBoardBy('party_id')}
               align='right'
             >
-              Party ID &nbsp;
+              PARTY ID &nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
@@ -96,7 +96,7 @@ const Leaderboard = () => {
               onClick={() => sortLeaderBoardBy('account_balance')}
               align='right'
             >
-              Balance ($)&nbsp;
+              BALANCE ($)&nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
@@ -104,7 +104,7 @@ const Leaderboard = () => {
               onClick={() => sortLeaderBoardBy('profit')}
               align='right'
             >
-              Profit ($)&nbsp;
+              PROFIT ($)&nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
@@ -112,7 +112,7 @@ const Leaderboard = () => {
               onClick={() => sortLeaderBoardBy('realised_pnl')}
               align='right'
             >
-              Realised PNL ($)&nbsp;
+              REALISED PNL ($)&nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
@@ -120,7 +120,7 @@ const Leaderboard = () => {
               onClick={() => sortLeaderBoardBy('unrealised_pnl')}
               align='right'
             >
-              Unrealised PNL ($)&nbsp;
+              UNREALISED PNL ($)&nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell

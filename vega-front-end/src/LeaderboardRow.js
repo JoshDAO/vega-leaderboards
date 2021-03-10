@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell'
 import Collapse from '@material-ui/core/Collapse'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import { IoMdExpand} from 'react-icons/io'
+import { IoMdExpand, IoMdArrowDropdown } from 'react-icons/io'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -19,18 +19,26 @@ const StyledTableCell = withStyles((theme) => ({
     fontWeight: 250,
   },
   root: {
-    padding: "8px 32px"
-  }
+    padding: '8px 16px',
+  },
 }))(TableCell)
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
     backgroundColor: 'black',
     color: 'white',
-  }
+  },
 }))(TableRow)
 
-const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) => {
+const LeaderboardRow = ({
+  index,
+  party_id,
+  account_balance,
+  profit,
+  realisedpnl,
+  unrealisedpnl,
+  roi,
+}) => {
   const [expanded, setExpanded] = useState(false)
   const [loading, setLoading] = useState(false)
   const [chartData, setChartData] = useState([])
@@ -125,19 +133,20 @@ const LeaderboardRow = ({ index, party_id, account_balance, profit, pnl, roi }) 
         <StyledTableCell style={{ fontWeight: 700, paddingLeft: '3rem' }}>
           {index + 1}
         </StyledTableCell>
-        <StyledTableCell component='th' scope='row' align='center'>
+        <StyledTableCell component='th' scope='row' align='right'>
           {party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}
         </StyledTableCell>
-        <StyledTableCell align='center'>{account_balance}</StyledTableCell>
-        <StyledTableCell align='center'>{profit}</StyledTableCell>
-        <StyledTableCell align='center'>{pnl}</StyledTableCell>
-        <StyledTableCell align='center'>{roi}</StyledTableCell>
-        <StyledTableCell align='center'>
+        <StyledTableCell align='right'>{account_balance}</StyledTableCell>
+        <StyledTableCell align='right'>{profit}</StyledTableCell>
+        <StyledTableCell align='right'>{realisedpnl}</StyledTableCell>
+        <StyledTableCell align='right'>{unrealisedpnl}</StyledTableCell>
+        <StyledTableCell align='right'>{roi}</StyledTableCell>
+        <StyledTableCell align='right'>
           <IoMdExpand size={'1.5rem'} />
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='center' colSpan={7}>
+        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='right' colSpan={8}>
           <Collapse
             in={expanded}
             timeout='auto'

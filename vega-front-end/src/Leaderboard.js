@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import { IoMdArrowDropdown } from 'react-icons/io'
 
 import LeaderboardRow from './LeaderboardRow'
 
@@ -24,7 +25,7 @@ var formatter = new Intl.NumberFormat('en-US', {
   // These options are needed to round to whole numbers if that's what you want.
   minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
   //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
+})
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -49,6 +50,7 @@ const StyledTableRow = withStyles((theme) => ({
 const Leaderboard = () => {
   const classes = useStyles()
   const [leaderboardData, setLeaderboardData] = useState([])
+
   useEffect(() => {
     fetch('https://vega-leaderboard.herokuapp.com/api/leaderboards')
       .then((response) => response.json())
@@ -59,29 +61,82 @@ const Leaderboard = () => {
       })
   }, [])
 
+  const sortLeaderBoardBy = (field) => {
+    const sortedData = [...leaderboardData]
+    sortedData.sort((a, b) => {
+      return b[field] - a[field]
+    })
+
+    setLeaderboardData(sortedData)
+  }
+
   return leaderboardData.length ? (
     <TableContainer component={Paper} style={{ backgroundColor: 'black' }}>
       <Table className={classes.table} aria-label='simple table'>
         <TableHead>
           <TableRow>
             <StyledTableCell></StyledTableCell>
-            <StyledTableCell align='center'>Party ID</StyledTableCell>
-            <StyledTableCell align='center'>Balance ($)</StyledTableCell>
-            <StyledTableCell align='center'>Profit ($)</StyledTableCell>
-            <StyledTableCell align='center'>Realised PNL ($)</StyledTableCell>
-            <StyledTableCell align='center'>ROI (%)</StyledTableCell>
-            <StyledTableCell align='center'></StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('party_id')}
+              align='right'
+            >
+              Party ID &nbsp;
+              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+            </StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('account_balance')}
+              align='right'
+            >
+              Balance ($)&nbsp;
+              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+            </StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('profit')}
+              align='right'
+            >
+              Profit ($)&nbsp;
+              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+            </StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('realised_pnl')}
+              align='right'
+            >
+              Realised PNL ($)&nbsp;
+              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+            </StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('unrealised_pnl')}
+              align='right'
+            >
+              Unrealised PNL ($)&nbsp;
+              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+            </StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('roi(%)')}
+              align='right'
+            >
+              ROI (%)&nbsp;
+              <IoMdArrowDropdown size={25} style={{ position: 'relative', top: 5 }} />
+            </StyledTableCell>
+            <StyledTableCell align='right'></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {leaderboardData.map((row, index) => (
             <LeaderboardRow
-              key={row.id}
+              key={row.party_id}
               index={index}
               account_balance={formatter.format(row.account_balance)}
               party_id={row.party_id}
               profit={formatter.format(row.profit)}
-              pnl={formatter.format(row.realised_pnl)}
+              realisedpnl={formatter.format(row.realised_pnl)}
+              unrealisedpnl={formatter.format(row.unrealised_pnl)}
               roi={row['roi(%)'].toFixed(2)}
             />
           ))}

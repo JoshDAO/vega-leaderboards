@@ -55,7 +55,9 @@ const Leaderboard = () => {
     fetch('https://vega-leaderboard.herokuapp.com/api/leaderboards')
       .then((response) => response.json())
       .then((data) => {
-        const sortedData = data.data.filter((item) => item.party_id !== 'network').reverse()
+        const sortedData = data.data
+          .filter((item) => item.party_id !== 'network')
+          .sort((a, b) => b['roi(%)'] - a['roi(%)'])
         console.log(sortedData)
         setLeaderboardData(sortedData)
       })

@@ -16,7 +16,7 @@ const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: '1rem',
     color: 'white',
-    fontWeight: 250,
+    fontWeight: 300,
   },
   root: {
     padding: '8px 16px',
@@ -136,11 +136,21 @@ const LeaderboardRow = ({
         <StyledTableCell component='th' scope='row' align='right'>
           {party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}
         </StyledTableCell>
-        <StyledTableCell align='right'>{account_balance}</StyledTableCell>
-        <StyledTableCell align='right'>{profit}</StyledTableCell>
-        <StyledTableCell align='right'>{realisedpnl}</StyledTableCell>
-        <StyledTableCell align='right'>{unrealisedpnl}</StyledTableCell>
-        <StyledTableCell align='right'>{roi}</StyledTableCell>
+        <StyledTableCell style={{ color: account_balance < 0 ? 'red' : '#33ff33' }} align='right'>
+          {account_balance}
+        </StyledTableCell>
+        <StyledTableCell style={{ color: profit < 0 ? 'red' : '#33ff33' }} align='right'>
+          {profit}
+        </StyledTableCell>
+        <StyledTableCell style={{ color: realisedpnl < 0 ? 'red' : '#33ff33' }} align='right'>
+          {realisedpnl}
+        </StyledTableCell>
+        <StyledTableCell style={{ color: unrealisedpnl < 0 ? 'red' : '#33ff33' }} align='right'>
+          {unrealisedpnl}
+        </StyledTableCell>
+        <StyledTableCell style={{ color: roi < 0 ? 'red' : '#33ff33' }} align='right'>
+          {roi}
+        </StyledTableCell>
         <StyledTableCell align='right'>
           <IoMdExpand size={'1.5rem'} />
         </StyledTableCell>

@@ -33,6 +33,9 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow)
 
+{
+  /* ---- ADD THE NEW PROP HERE ---- */
+}
 const LeaderboardRow = ({
   index,
   party_id,
@@ -181,9 +184,13 @@ const LeaderboardRow = ({
         <StyledTableCell component='th' scope='row' align='right'>
           {party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}
         </StyledTableCell>
+        {/* ---- COPY AND PASTE THE CODE FOR ONE TABLE CELL ---- */}
         <StyledTableCell style={{ color: colors.white }} align='right'>
           {account_balance}
         </StyledTableCell>
+        {/* ---- UNTIL HERE ---- */}
+        {/* ---- PASTE IT - ENSURE YOU HAVE THE SAME ORDER AS YOUR TABLE HEADINGS  ---- */}
+        {/* ---- STYLE ACCORDINGLY AND PUT THE NEW PROP IN BETWEEN THE TAGS ---- */}
         <StyledTableCell
           style={{ color: parseInt(profit.replace(/\$|\,/, '')) < 0 ? 'red' : '#33ff33' }}
           align='right'
@@ -210,6 +217,7 @@ const LeaderboardRow = ({
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
+        {/* ---- INCREMENT COLSPAN BY 1 ---- */}
         <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='right' colSpan={8}>
           <Collapse
             in={expanded}

@@ -6,7 +6,7 @@ import Collapse from '@material-ui/core/Collapse'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { IoMdExpand } from 'react-icons/io'
-import { colors } from './styles'
+import { colors, styles } from './styles'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -45,6 +45,7 @@ const LeaderboardRow = ({
   const [expanded, setExpanded] = useState(false)
   const [chartData, setChartData] = useState([])
   const [period, setPeriod] = useState(86400000 * 365)
+  const [displayChart, setDisplayChart] = useState('balance')
 
   const handleExpand = () => {
     if (!expanded) {
@@ -54,7 +55,8 @@ const LeaderboardRow = ({
           const sortedData = data.data
             .sort((a, b) => a.timestamp - b.timestamp)
             .map((item) => {
-              return [item.timestamp * 1000, item.account_balance / 1000000]
+              console.log(item)
+              return [item.timestamp * 1000, item.account_balance / 1000000, item['roi(%)']]
             })
           console.log(sortedData)
           setChartData(sortedData)
@@ -63,7 +65,7 @@ const LeaderboardRow = ({
     setExpanded(!expanded)
   }
 
-  const options = {
+  const balanceOptions = {
     chart: {
       type: 'line',
       scrollablePlotArea: {
@@ -109,7 +111,62 @@ const LeaderboardRow = ({
     series: [
       {
         name: 'Balance',
-        data: chartData.filter((dataPoint) => dataPoint[0] > Date.now() - period), //  filters data according to time set on graph
+        data: chartData
+          .map((datapoint) => [datapoint[0], datapoint[1]])
+          .filter((dataPoint) => dataPoint[0] > Date.now() - period), //  filters data according to time set on graph
+        color: 'white',
+      },
+    ],
+  }
+  const roiOptions = {
+    chart: {
+      type: 'line',
+      scrollablePlotArea: {
+        scrollPositionX: 1,
+      },
+      backgroundColor: '#000',
+      style: {
+        fontSize: '1.2rem',
+      },
+    },
+    plotOptions: {
+      line: {
+        marker: {
+          enabled: false,
+        },
+      },
+    },
+    legend: {
+      enabled: false,
+    },
+    title: {
+      text: `Address ${party_id.substr(0, 5).concat('...').concat(party_id.substr(-4))}`,
+      style: { color: colors.white, fontSize: '1.5rem', fontWeight: 600 },
+    },
+    xAxis: {
+      type: 'datetime',
+      labels: {
+        overflow: 'justify',
+        style: { color: colors.lightGrey, fontSize: '1rem' },
+      },
+    },
+    yAxis: {
+      title: {
+        text: 'ROI (%)',
+        style: { color: colors.white, fontSize: '1.3rem', fontWeight: 500 },
+      },
+      labels: {
+        style: { color: colors.lightGrey, fontSize: '1rem', fontWeight: 600 },
+      },
+      gridLineColor: '#555',
+    },
+
+    series: [
+      {
+        name: 'ROI (%)',
+        data: chartData
+          .map((datapoint) => [datapoint[0], datapoint[2]])
+          .filter((dataPoint) => dataPoint[0] > Date.now() - period), //  filters data according to time set on graph
         color: 'white',
       },
     ],
@@ -160,67 +217,69 @@ const LeaderboardRow = ({
             unmountOnExit
             style={{ margin: 'auto', padding: '2rem' }}
           >
-            <HighchartsReact highcharts={Highcharts} options={options} />
-            <div
-              style={{
-                border: '3px solid white',
-                width: '20%',
-                height: '2.5rem',
-                margin: 'auto',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent:
-                  'space-evenghlighting of a single point. Can be used to remove, edit or display information about a point.ly',
-                alignItems: 'center',
-              }}
-            >
-              <div
-                style={{
-                  cursor: 'pointer',
-                  border: period === 86400000 ? '3px solid white' : 'none',
-                  boxSizing: 'border-box',
-                  padding: '0 0.5rem',
-                  width: '25%',
-                }}
-                onClick={() => setPeriod(86400000)}
-              >
-                24h
+            {displayChart === 'balance' ? (
+              <HighchartsReact highcharts={Highcharts} options={balanceOptions} />
+            ) : (
+              <HighchartsReact highcharts={Highcharts} options={roiOptions} />
+            )}
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+              <div style={styles.chartOptionContainer}>
+                <div
+                  style={{
+                    ...styles.chartOption,
+                    border: displayChart === 'balance' ? '3px solid white' : 'none',
+                  }}
+                  onClick={() => setDisplayChart('balance')}
+                >
+                  Balance
+                </div>
+                <div
+                  style={{
+                    ...styles.chartOption,
+                    border: displayChart === 'roi' ? '3px solid white' : 'none',
+                  }}
+                  onClick={() => setDisplayChart('roi')}
+                >
+                  ROI (%)
+                </div>
               </div>
-              <div
-                style={{
-                  cursor: 'pointer',
-                  border: period === 86400000 * 7 ? '3px solid white' : 'none',
-                  boxSizing: 'border-box',
-                  padding: '0 0.5rem',
-                  width: '25%',
-                }}
-                onClick={() => setPeriod(86400000 * 7)}
-              >
-                7d
-              </div>
-              <div
-                style={{
-                  cursor: 'pointer',
-                  border: period === 86400000 * 30 ? '3px solid white' : 'none',
-                  boxSizing: 'border-box',
-                  padding: '0 0.5rem',
-                  width: '25%',
-                }}
-                onClick={() => setPeriod(86400000 * 30)}
-              >
-                30d
-              </div>
-              <div
-                style={{
-                  cursor: 'pointer',
-                  border: period === 86400000 * 365 ? '3px solid white' : 'none',
-                  boxSizing: 'border-box',
-                  padding: '0 0.5rem',
-                  width: '25%',
-                }}
-                onClick={() => setPeriod(86400000 * 365)}
-              >
-                1y
+              <div style={styles.chartOptionContainer}>
+                <div
+                  style={{
+                    ...styles.chartOption,
+                    border: period === 86400000 ? '3px solid white' : 'none',
+                  }}
+                  onClick={() => setPeriod(86400000)}
+                >
+                  24h
+                </div>
+                <div
+                  style={{
+                    ...styles.chartOption,
+                    border: period === 86400000 * 7 ? '3px solid white' : 'none',
+                  }}
+                  onClick={() => setPeriod(86400000 * 7)}
+                >
+                  7d
+                </div>
+                <div
+                  style={{
+                    ...styles.chartOption,
+                    border: period === 86400000 * 30 ? '3px solid white' : 'none',
+                  }}
+                  onClick={() => setPeriod(86400000 * 30)}
+                >
+                  30d
+                </div>
+                <div
+                  style={{
+                    ...styles.chartOption,
+                    border: period === 86400000 * 365 ? '3px solid white' : 'none',
+                  }}
+                  onClick={() => setPeriod(86400000 * 365)}
+                >
+                  1y
+                </div>
               </div>
             </div>
           </Collapse>

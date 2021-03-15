@@ -91,6 +91,9 @@ const Leaderboard = () => {
               PARTY ID &nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
+            {/* ----- TO ADD A NEW COLUMN ----- */}
+            {/* COPY THE FOLLOWING CHUNK OF CODE */}
+
             <StyledTableCell
               style={{ cursor: 'pointer' }}
               onClick={() => sortLeaderBoardBy('account_balance')}
@@ -99,6 +102,16 @@ const Leaderboard = () => {
               BALANCE ($)&nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
+            {/* ---- UNTIL HERE ---- */}
+
+            {/* ---- PASTE THE CODE FOR THE NEW COLUMN WHEREVER YOU WANT THE COLUMN TO APPEAR ---- */}
+            {/* ---- IF YOU PASTE IT HERE, THE NEW COLUMN WILL APPEAR BETWEEN BALANCE AND PROFIT ---- */}
+            {/* ---- CHANGE THE ONCLICK FUNCTION TO SORTLEADERBOARD BY NEW PROPERTY ---- */}
+            {/* ---- THE ARGUMENT MUST *EXACTLY* MATCH THE PROPERTY NAME FROM THE API ---- */}
+            {/* ---- REPLACE TEXT BETWEEN CALL TAGS APPROPRIATELY ---- */}
+
+            {/* ---- SCROLL DOWN TO THE MAP FUNCTION ---- */}
+
             <StyledTableCell
               style={{ cursor: 'pointer' }}
               onClick={() => sortLeaderBoardBy('profit')}
@@ -135,6 +148,8 @@ const Leaderboard = () => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {/* ---- ADD THE NEW PROPERTY HERE AS A PROP ---- */}
+          {/* ---- GO TO LeaderboardRow.js ---- */}
           {leaderboardData.map((row, index) => (
             <LeaderboardRow
               key={row.party_id}

@@ -44,6 +44,7 @@ const LeaderboardRow = ({
   realisedpnl,
   unrealisedpnl,
   roi,
+  sharpe
 }) => {
   const [expanded, setExpanded] = useState(false)
   const [chartData, setChartData] = useState([])
@@ -212,13 +213,16 @@ const LeaderboardRow = ({
         <StyledTableCell style={{ color: roi < 0 ? 'red' : '#33ff33' }} align='right'>
           {roi}
         </StyledTableCell>
+        <StyledTableCell style={{ color: sharpe < 0 ? 'red' : '#33ff33' }} align='right'>
+          {sharpe}
+        </StyledTableCell>
         <StyledTableCell align='right'>
           <IoMdExpand size={'1.5rem'} />
         </StyledTableCell>
       </StyledTableRow>
       <StyledTableRow>
         {/* ---- INCREMENT COLSPAN BY 1 ---- */}
-        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='right' colSpan={8}>
+        <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} align='right' colSpan={9}>
           <Collapse
             in={expanded}
             timeout='auto'

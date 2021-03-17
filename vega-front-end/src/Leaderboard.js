@@ -32,7 +32,7 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: colors.black,
     color: colors.white,
-    fontSize: '1.2rem',
+    fontSize: '1.1rem',
   },
   body: {
     fontSize: '1rem',
@@ -144,6 +144,14 @@ const Leaderboard = () => {
               ROI (%)&nbsp;
               <IoMdArrowDropdown size={25} style={styles.sortIcon} />
             </StyledTableCell>
+            <StyledTableCell
+              style={{ cursor: 'pointer' }}
+              onClick={() => sortLeaderBoardBy('sharpe_ratio (daily)')}
+              align='right'
+            >
+              SHARPE RATIO (DAILY)&nbsp;
+              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+            </StyledTableCell>
             <StyledTableCell align='right'></StyledTableCell>
           </TableRow>
         </TableHead>
@@ -160,6 +168,7 @@ const Leaderboard = () => {
               realisedpnl={formatter.format(row.realised_pnl)}
               unrealisedpnl={formatter.format(row.unrealised_pnl)}
               roi={row['roi(%)'].toFixed(2)}
+              sharpe={row['sharpe_ratio (daily)'].toFixed(3)}
             />
           ))}
         </TableBody>

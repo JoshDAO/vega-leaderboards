@@ -209,7 +209,7 @@ const LeaderboardRow = ({
       backgroundColor: '#000',
     },
     title: {
-      text: 'Portfolio Breakdown',
+      text: 'Portfolio Breakdown ($)',
       style: { color: colors.white },
     },
     tooltip: {

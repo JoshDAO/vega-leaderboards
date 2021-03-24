@@ -9,7 +9,7 @@ export const colors = {
 export const styles = {
   chartOptionContainer: {
     border: '3px solid white',
-    width: '20%',
+    width: '30%',
     height: '2.5rem',
     margin: '1rem 2rem',
     display: 'flex',

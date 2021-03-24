@@ -169,6 +169,7 @@ const Leaderboard = () => {
               unrealisedpnl={formatter.format(row.unrealised_pnl)}
               roi={row['roi(%)'].toFixed(2)}
               sharpe={row['sharpe_ratio (daily)'].toFixed(3)}
+              breakdown={row.breakdown}
             />
           ))}
         </TableBody>

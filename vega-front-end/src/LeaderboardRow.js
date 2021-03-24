@@ -44,7 +44,8 @@ const LeaderboardRow = ({
   realisedpnl,
   unrealisedpnl,
   roi,
-  sharpe
+  sharpe,
+  breakdown,
 }) => {
   const [expanded, setExpanded] = useState(false)
   const [chartData, setChartData] = useState([])
@@ -68,6 +69,21 @@ const LeaderboardRow = ({
     }
     setExpanded(!expanded)
   }
+
+  Highcharts.setOptions({
+    colors: [
+      '#2f7ed8',
+      '#0d233a',
+      '#8bbc21',
+      '#910000',
+      '#1aadce',
+      '#492970',
+      '#f28f43',
+      '#77a1e5',
+      '#c42525',
+      '#a6c96a',
+    ],
+  })
 
   const balanceOptions = {
     chart: {
@@ -176,6 +192,57 @@ const LeaderboardRow = ({
     ],
   }
 
+  const formatPieData = (breakdown) => {
+    const output = []
+    for (let property in breakdown) {
+      output.push({ name: property, y: breakdown[property] })
+    }
+    return output
+  }
+
+  const pieOptions = {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie',
+      backgroundColor: '#000',
+    },
+    title: {
+      text: 'Portfolio Breakdown',
+      style: { color: colors.white },
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%',
+      },
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+          color: colors.white,
+          crop: true,
+        },
+        center: ['50%', '50%'],
+        size: '70%',
+      },
+    },
+    series: [
+      {
+        name: 'Brands',
+        colorByPoint: true,
+        data: formatPieData(breakdown),
+      },
+    ],
+  }
+
   return (
     <>
       <StyledTableRow onClick={handleExpand}>
@@ -227,71 +294,80 @@ const LeaderboardRow = ({
             in={expanded}
             timeout='auto'
             unmountOnExit
-            style={{ margin: 'auto', padding: '2rem' }}
+            style={{ margin: 'auto', padding: '2rem 0' }}
           >
-            {displayChart === 'balance' ? (
-              <HighchartsReact highcharts={Highcharts} options={balanceOptions} />
-            ) : (
-              <HighchartsReact highcharts={Highcharts} options={roiOptions} />
-            )}
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-              <div style={styles.chartOptionContainer}>
-                <div
-                  style={{
-                    ...styles.chartOption,
-                    border: displayChart === 'balance' ? '3px solid white' : 'none',
-                  }}
-                  onClick={() => setDisplayChart('balance')}
-                >
-                  Balance
-                </div>
-                <div
-                  style={{
-                    ...styles.chartOption,
-                    border: displayChart === 'roi' ? '3px solid white' : 'none',
-                  }}
-                  onClick={() => setDisplayChart('roi')}
-                >
-                  ROI (%)
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div style={{ width: '65%' }}>
+                {displayChart === 'balance' ? (
+                  <HighchartsReact highcharts={Highcharts} options={balanceOptions} />
+                ) : (
+                  <HighchartsReact highcharts={Highcharts} options={roiOptions} />
+                )}
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                  <div style={styles.chartOptionContainer}>
+                    <div
+                      style={{
+                        ...styles.chartOption,
+                        width: '50%',
+                        border: displayChart === 'balance' ? '3px solid white' : 'none',
+                      }}
+                      onClick={() => setDisplayChart('balance')}
+                    >
+                      Balance
+                    </div>
+                    <div
+                      style={{
+                        ...styles.chartOption,
+                        width: '50%',
+                        border: displayChart === 'roi' ? '3px solid white' : 'none',
+                      }}
+                      onClick={() => setDisplayChart('roi')}
+                    >
+                      ROI (%)
+                    </div>
+                  </div>
+                  <div style={styles.chartOptionContainer}>
+                    <div
+                      style={{
+                        ...styles.chartOption,
+                        border: period === 86400000 ? '3px solid white' : 'none',
+                      }}
+                      onClick={() => setPeriod(86400000)}
+                    >
+                      24h
+                    </div>
+                    <div
+                      style={{
+                        ...styles.chartOption,
+                        border: period === 86400000 * 7 ? '3px solid white' : 'none',
+                      }}
+                      onClick={() => setPeriod(86400000 * 7)}
+                    >
+                      7d
+                    </div>
+                    <div
+                      style={{
+                        ...styles.chartOption,
+                        border: period === 86400000 * 30 ? '3px solid white' : 'none',
+                      }}
+                      onClick={() => setPeriod(86400000 * 30)}
+                    >
+                      30d
+                    </div>
+                    <div
+                      style={{
+                        ...styles.chartOption,
+                        border: period === 86400000 * 365 ? '3px solid white' : 'none',
+                      }}
+                      onClick={() => setPeriod(86400000 * 365)}
+                    >
+                      1y
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div style={styles.chartOptionContainer}>
-                <div
-                  style={{
-                    ...styles.chartOption,
-                    border: period === 86400000 ? '3px solid white' : 'none',
-                  }}
-                  onClick={() => setPeriod(86400000)}
-                >
-                  24h
-                </div>
-                <div
-                  style={{
-                    ...styles.chartOption,
-                    border: period === 86400000 * 7 ? '3px solid white' : 'none',
-                  }}
-                  onClick={() => setPeriod(86400000 * 7)}
-                >
-                  7d
-                </div>
-                <div
-                  style={{
-                    ...styles.chartOption,
-                    border: period === 86400000 * 30 ? '3px solid white' : 'none',
-                  }}
-                  onClick={() => setPeriod(86400000 * 30)}
-                >
-                  30d
-                </div>
-                <div
-                  style={{
-                    ...styles.chartOption,
-                    border: period === 86400000 * 365 ? '3px solid white' : 'none',
-                  }}
-                  onClick={() => setPeriod(86400000 * 365)}
-                >
-                  1y
-                </div>
+              <div style={{ width: '35%' }}>
+                <HighchartsReact highcharts={Highcharts} options={pieOptions} />
               </div>
             </div>
           </Collapse>

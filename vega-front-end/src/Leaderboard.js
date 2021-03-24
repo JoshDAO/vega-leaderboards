@@ -32,10 +32,16 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: colors.black,
     color: colors.white,
-    fontSize: '1.1rem',
+    fontSize: '0.9rem',
+    fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   body: {
     fontSize: '1rem',
+    fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
 }))(TableCell)
 
@@ -141,7 +147,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               PARTY ID &nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             {/* ----- TO ADD A NEW COLUMN ----- */}
             {/* COPY THE FOLLOWING CHUNK OF CODE */}
@@ -152,7 +158,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               BALANCE ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             {/* ---- UNTIL HERE ---- */}
 
@@ -170,7 +176,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               PROFIT ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -178,7 +184,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               REALISED PNL ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -186,7 +192,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               UNREALISED PNL ($)&nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -194,7 +200,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               ROI (%)&nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell
               style={{ cursor: 'pointer' }}
@@ -202,7 +208,7 @@ const Leaderboard = ({ botFilter }) => {
               align='right'
             >
               SHARPE RATIO (DAILY)&nbsp;
-              <IoMdArrowDropdown size={25} style={styles.sortIcon} />
+              <IoMdArrowDropdown size={'1.5rem'} style={styles.sortIcon} />
             </StyledTableCell>
             <StyledTableCell align='right'></StyledTableCell>
           </TableRow>

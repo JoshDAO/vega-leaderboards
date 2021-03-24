@@ -2,21 +2,23 @@ import React, { useState } from 'react'
 import './App.css'
 import Leaderboard from './Leaderboard'
 import { colors, styles } from './styles'
-import Switch from '@material-ui/core/Switch'
+import ButtonAppBar from './Navbar'
 
 function App() {
   const [botFilter, setBotFilter] = useState(false)
 
   return (
-    <div style={{ backgroundColor: 'black', height: '100%', padding: '5rem' }}>
+    <div style={{ backgroundColor: 'black', height: '100%' }}>
+      <ButtonAppBar />
       <div
         className='App'
         style={{
           width: '90%',
           margin: 'auto',
           marginTop: '2rem',
-          fontFamily: "Helvetica Neue',Helvetica,Arial,sans-serif",
+          fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
           backgroundColor: 'black',
+          padding: '0 5rem',
         }}
       >
         <div style={{ color: colors.white }}>

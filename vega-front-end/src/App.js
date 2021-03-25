@@ -8,7 +8,13 @@ function App() {
   const [botFilter, setBotFilter] = useState(false)
 
   return (
-    <div style={{ backgroundColor: 'black', height: '100%' }}>
+    <div
+      style={{
+        backgroundColor: 'black',
+        height: '100%',
+        fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
+      }}
+    >
       <ButtonAppBar />
       <div
         className='App'

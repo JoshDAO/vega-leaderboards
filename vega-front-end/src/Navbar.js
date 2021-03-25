@@ -18,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: theme.spacing(5),
     fontSize: '2rem',
+    fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
   },
   button: {
     fontSize: '1.5rem',
+    fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
   },
 }))
 

@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { IoMdArrowDropdown } from 'react-icons/io'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 import LeaderboardRow from './LeaderboardRow'
 import { colors } from './styles'
@@ -61,6 +62,7 @@ const styles = {
 const Leaderboard = ({ botFilter }) => {
   const classes = useStyles()
   const [leaderboardData, setLeaderboardData] = useState([])
+  const [loading, setLoading] = useState(false)
   const bots = botFilter
     ? [
         'fb877c5fda34a34f01b174abbd6f0156131bd1ce60d531956ac2f7b99410eb5b',
@@ -115,6 +117,7 @@ const Leaderboard = ({ botFilter }) => {
     : []
 
   useEffect(() => {
+    setLoading(true)
     fetch('https://vega-leaderboard.herokuapp.com/api/leaderboards')
       .then((response) => response.json())
       .then((data) => {
@@ -123,6 +126,7 @@ const Leaderboard = ({ botFilter }) => {
           .sort((a, b) => b['roi(%)'] - a['roi(%)'])
         console.log(sortedData)
         setLeaderboardData(sortedData)
+        setLoading(false)
       })
   }, [])
 
@@ -135,7 +139,12 @@ const Leaderboard = ({ botFilter }) => {
     setLeaderboardData(sortedData)
   }
 
-  return leaderboardData.length ? (
+  return loading ? (
+    <>
+      <h1 style={{ color: colors.white, marginTop: '30vh' }}>Retrieving data...</h1>
+      <ClipLoader loading={loading} color={colors.white} />
+    </>
+  ) : leaderboardData.length ? (
     <TableContainer component={Paper} style={{ backgroundColor: 'black' }}>
       <Table className={classes.table} aria-label='simple table'>
         <TableHead>

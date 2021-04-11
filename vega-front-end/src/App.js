@@ -11,6 +11,7 @@ function App() {
     <div
       style={{
         backgroundColor: 'black',
+        minHeight: '100vh',
         height: '100%',
         fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
       }}

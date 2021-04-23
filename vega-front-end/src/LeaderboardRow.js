@@ -236,7 +236,7 @@ const LeaderboardRow = ({
     },
     series: [
       {
-        name: 'Brands',
+        name: 'Asset',
         colorByPoint: true,
         data: formatPieData(breakdown),
       },

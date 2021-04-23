@@ -227,6 +227,7 @@ const Leaderboard = ({ botFilter }) => {
           {/* ---- GO TO LeaderboardRow.js ---- */}
           {leaderboardData
             .filter((row) => !bots.includes(row.party_id))
+            .slice(0, 250)
             .map((row, index) => (
               <LeaderboardRow
                 key={row.party_id}

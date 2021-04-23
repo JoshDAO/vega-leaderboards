@@ -17,12 +17,24 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     marginLeft: theme.spacing(5),
-    fontSize: '2rem',
+    fontSize: '3rem',
     fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
   },
   button: {
-    fontSize: '1.5rem',
+    fontSize: '2rem',
     fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif",
+    textDecorationLine: 'none',
+    color: colors.white,
+    marginRight: theme.spacing(8),
+  },
+  anchor: {
+    textDecorationLine: 'none',
+    color: colors.white,
+    height: '100%',
+    '& :hover': {
+      backgroundColor: colors.white,
+      color: colors.black,
+    },
   },
 }))
 
@@ -34,19 +46,25 @@ export default function ButtonAppBar() {
       <AppBar
         position='static'
         style={{
-          padding: '0 5rem',
           backgroundColor: colors.black,
-          borderBottom: '3px solid white',
+          borderBottom: '5px solid white',
         }}
       >
-        <Toolbar>
+        <Toolbar style={{ height: '100%' }}>
           <img src={podium} height={'70'} style={{ margin: '0.5rem 0 1rem 0' }} />
           <Typography variant='h6' className={classes.title}>
             VEGA LEADERBOARDS
           </Typography>
-          <Button color='inherit' className={classes.button}>
-            FAQs
-          </Button>
+          <a className={classes.anchor} href={'https://google.com'}>
+            <Button color='inherit' className={classes.button}>
+              FAQs
+            </Button>
+          </a>
+          <a className={classes.anchor} href={'https://vega.xyz/'}>
+            <Button color='inherit' className={classes.button}>
+              Vega
+            </Button>
+          </a>
         </Toolbar>
       </AppBar>
     </div>

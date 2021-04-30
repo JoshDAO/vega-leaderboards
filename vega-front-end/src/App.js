@@ -80,7 +80,11 @@ function App() {
             Filter out bots:
           </label>
           <GreySwitch id={'bot-filter'} onChange={() => setBotFilter(!botFilter)} defaultChecked />
+          <p style={{ color: colors.white, display: 'flex', alignItems: 'right' }}>
+          Please note: Vega Protocol is in testnet. We have attempted to account for all known bots, but bots may still be included.
+        </p>
         </div>
+
         <Leaderboard botFilter={botFilter} />
       </div>
     </div>

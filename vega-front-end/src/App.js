@@ -83,6 +83,9 @@ function App() {
           <p style={{ color: colors.white, display: 'flex', alignItems: 'right' }}>
           Please note: Vega Protocol is in testnet. We have attempted to account for all known bots, but bots may still be included.
         </p>
+          <p style={{ color: colors.white, display: 'flex', alignItems: 'right' }}>
+          Please note: Vega Protocol is in testnet. We have attempted to account for all known bots, but bots may still be included.
+        </p>
         </div>
 
         <Leaderboard botFilter={botFilter} />
